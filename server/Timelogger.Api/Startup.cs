@@ -104,6 +104,7 @@ namespace Timelogger.Api
 				ProjectId = 2,
 				TimeSpentInMinutes = 150,
 				RegistrationCreated = DateTime.Now.AddDays(-6),
+				Comment = "Kick off meeting"
 			};
 
 			var timeRegistration2 = new TimeRegistration {

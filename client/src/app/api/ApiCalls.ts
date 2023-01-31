@@ -16,6 +16,25 @@ export const getAllProjects = async () : Promise<Project[]> => {
     })
 }
 
+export const closeProject = async (projectId : number) : Promise<boolean> => {
+  try{   
+  const response = await fetch(`${BASE_URL}/projects/closeProject`, {
+  method: 'POST',
+  headers:{
+      'Content-Type': 'application/json'
+    },
+  body: JSON.stringify(projectId),
+});
+
+ if (!response.ok) {
+  return false;
+}
+  return true;
+  }catch(e){
+  return false;
+}
+}
+
 export const getAllTimeRegistrations = async () : Promise<TimeRegistration[]> => {
     const response = await fetch(`${BASE_URL}/projects/getTimeRegistrations`);
     if(!response.ok){
@@ -29,7 +48,7 @@ export const getAllTimeRegistrations = async () : Promise<TimeRegistration[]> =>
     })
 }
 
-export const postAddTime = async(minutes: string, project: string): Promise<boolean> =>{
+export const postAddTime = async(minutes: string, project: string, comment: string): Promise<boolean> =>{
   try{
     
 const response = await fetch(`${BASE_URL}/projects/addTimeEntry`, {
@@ -37,7 +56,7 @@ const response = await fetch(`${BASE_URL}/projects/addTimeEntry`, {
   headers:{
       'Content-Type': 'application/json'
     },
-  body: JSON.stringify({"minutes": minutes, "project" : project}),
+  body: JSON.stringify({"minutes": minutes, "project" : project, "comment" : comment}),
 });
 
  if (!response.ok) {
@@ -47,6 +66,25 @@ const response = await fetch(`${BASE_URL}/projects/addTimeEntry`, {
 }catch(e){
   return false;
 }
+}
+
+export const postAddProject = async( projectName: string, customerName: string): Promise<boolean> =>{
+  try{
+    const response = await fetch(`${BASE_URL}/projects/addProject`, {
+    method: 'POST',
+    headers:{
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({ "projectName" : projectName, "customerName" : customerName}),
+});
+
+  if (!response.ok) {
+    return false;
+  }
+    return true;
+  }catch(e){
+    return false;
+  }
 }
 
 

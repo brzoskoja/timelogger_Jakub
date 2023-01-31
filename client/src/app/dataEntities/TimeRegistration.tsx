@@ -3,4 +3,5 @@ export type TimeRegistration = {
   projectId: number;
   registrationCreated: Date;
   timeSpentInMinutes: number;
+  comment: string;
 };

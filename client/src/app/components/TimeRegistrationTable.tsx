@@ -36,13 +36,12 @@ export default function TimeRegistrationTable({ timeRegistrations, projects }: T
       {selectedProjectId > 0 && (
         <table className="table-fixed w-full">
           <caption>Time registrations for selected project</caption>
-          <thead className="bg-gray-200">
+          <thead className="bg-blue-200">
             <tr>
-              <th sortable-column className="border px-4 py-2 w-12">
-                #
-              </th>
+              <th className="border px-4 py-2 w-12">#</th>
               <th className="border px-4 py-2">Time spent </th>
               <th className="border px-4 py-2">Registration Added</th>
+              <th className="border px-4 py-2">Comment</th>
             </tr>
           </thead>
           <tbody>
@@ -54,6 +53,7 @@ export default function TimeRegistrationTable({ timeRegistrations, projects }: T
                     <td className="border px-4 py-2 w-12"> {timeRegistration.id}</td>
                     <td className="border px-4 py-2">{timeInMinutesToFormattedString(timeRegistration.timeSpentInMinutes)}</td>
                     <td className="border px-4 py-2">{timeRegistration.registrationCreated.toLocaleDateString()}</td>
+                    <td className="border px-4 py-2">{timeRegistration.comment}</td>
                   </tr>
                 );
               })}

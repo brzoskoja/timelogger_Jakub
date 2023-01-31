@@ -12,6 +12,7 @@ export default function AddTimeToProjects({ projects, setError, fetchData }: Add
   const [addTimeHidden, setAddTimeHidden] = useState(true);
   const [selectedProject, setSelectedProject] = useState("");
   const [minutesToAdd, setMinutesToAdd] = useState("0");
+  const [comment, setComment] = useState("");
 
   async function handleAddTimeButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
@@ -20,7 +21,7 @@ export default function AddTimeToProjects({ projects, setError, fetchData }: Add
       setRegisterTimeButtonText("Confirm the input");
     } else {
       if (validateAddTime()) {
-        const success = await postAddTime(minutesToAdd, selectedProject);
+        const success = await postAddTime(minutesToAdd, selectedProject, comment);
         if (success) {
           fetchData();
           refreshAll();
@@ -35,6 +36,7 @@ export default function AddTimeToProjects({ projects, setError, fetchData }: Add
     setError("");
     setMinutesToAdd("0");
     setSelectedProject("");
+    setComment("");
     setRegisterTimeButtonText("Add new time entry");
     setAddTimeHidden(true);
   }
@@ -61,13 +63,18 @@ export default function AddTimeToProjects({ projects, setError, fetchData }: Add
     setSelectedProject(event.target.value);
   }
 
+  function handleCommentUpdate(event: React.ChangeEvent<HTMLInputElement>): void {
+    event.preventDefault();
+    setComment(event.target.value);
+  }
+
   function handleMinutesToAdd(event: React.ChangeEvent<HTMLInputElement>): void {
     event.preventDefault();
     setMinutesToAdd(event.target.value);
   }
 
   return (
-    <div className="flex justify-content: space-around w-1/2">
+    <div style={{ color: "blue" }} className=" flex justify-content: space-around w-1/2">
       <button onClick={handleAddTimeButtonClick} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
         {registerTimeButtonText}
       </button>
@@ -76,7 +83,7 @@ export default function AddTimeToProjects({ projects, setError, fetchData }: Add
           <div>
             <label>
               Project:
-              <select value={selectedProject} onChange={handleSelectProject}>
+              <select className="square border" value={selectedProject} onChange={handleSelectProject}>
                 <option disabled={selectedProject != ""} key={"Select project"} value={"Select project"}>
                   {"Select project"}
                 </option>
@@ -95,7 +102,13 @@ export default function AddTimeToProjects({ projects, setError, fetchData }: Add
           <div>
             <label>
               Minutes spent:
-              <input type="number" value={minutesToAdd} onChange={handleMinutesToAdd} />
+              <input className="square border" type="number" value={minutesToAdd} onChange={handleMinutesToAdd} />
+            </label>
+          </div>
+          <div>
+            <label>
+              Comment:
+              <input className="square border" type="text" value={comment} onChange={handleCommentUpdate} />
             </label>
           </div>
         </>

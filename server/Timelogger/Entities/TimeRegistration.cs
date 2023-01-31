@@ -6,5 +6,6 @@ namespace Timelogger.Entities {
     public int ProjectId { get; set; }
     public int TimeSpentInMinutes { get; set; }
     public DateTime RegistrationCreated { get; set; }
+    public string Comment { get; set; }
   }
 }

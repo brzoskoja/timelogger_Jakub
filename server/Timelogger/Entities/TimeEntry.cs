@@ -2,5 +2,6 @@
 	public class TimeEntry {
 		public string Minutes { get; set; }
 		public string Project { get; set; }
+		public string Comment { get; set; }
 	}
 }
