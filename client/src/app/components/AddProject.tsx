@@ -10,6 +10,7 @@ interface AddProjectProps {
 export default function AddProject({ projects, setError, fetchData }: AddProjectProps) {
   const [projectName, setProjectName] = useState("");
   const [customerName, setCustomerName] = useState("");
+  const [deadline, setDeadline] = useState(getTodaysDate());
 
   function handleProjectNameUpdate(event: React.ChangeEvent<HTMLInputElement>): void {
     event.preventDefault;
@@ -22,16 +23,28 @@ export default function AddProject({ projects, setError, fetchData }: AddProject
     setCustomerName(event.target.value);
   }
 
+  function handleDeadlineUpdate(event: React.ChangeEvent<HTMLInputElement>): void {
+    event.preventDefault;
+    setDeadline(event.target.value);
+  }
+
+  function getTodaysDate(): string {
+    return new Date().toISOString().split("T")[0];
+  }
+
   async function handleAddProjectButtonClick(event: React.MouseEvent<HTMLButtonElement>): Promise<void> {
     event.preventDefault();
     if (projects.filter((project) => project.name === projectName).length > 0) {
       setError("This project already exists");
+    } else if (projectName.length === 0) {
+      setError("Project needs a name");
     } else {
-      const success = await postAddProject(projectName, customerName);
+      const success = await postAddProject(projectName, customerName, deadline);
       if (success) {
         fetchData();
         setCustomerName("");
         setProjectName("");
+        setDeadline(getTodaysDate());
       } else {
         setError("Something went wrong when creating the new project");
       }
@@ -58,7 +71,7 @@ export default function AddProject({ projects, setError, fetchData }: AddProject
       <div>
         <label>
           Deadline:
-          <input type="date" value="2018-07-22" min="2018-01-01" max="2018-12-31"></input>
+          <input type="date" value={deadline} min={getTodaysDate()} onChange={handleDeadlineUpdate}></input>
         </label>
       </div>
     </div>

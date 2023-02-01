@@ -68,14 +68,14 @@ const response = await fetch(`${BASE_URL}/projects/addTimeEntry`, {
 }
 }
 
-export const postAddProject = async( projectName: string, customerName: string): Promise<boolean> =>{
+export const postAddProject = async( projectName: string, customerName: string, deadline: string): Promise<boolean> =>{
   try{
     const response = await fetch(`${BASE_URL}/projects/addProject`, {
     method: 'POST',
     headers:{
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({ "projectName" : projectName, "customerName" : customerName}),
+    body: JSON.stringify({ "projectName" : projectName, "customerName" : customerName, "deadline" : deadline}),
 });
 
   if (!response.ok) {

@@ -49,13 +49,13 @@ namespace Timelogger.Api.Controllers
 		[HttpPost]
 		[Route( "addProject" )]
 		public IActionResult AddProject( [FromBody] AddProjectEntry addProjectEntry ) {
-			if ( ProjectCanBeCreated( addProjectEntry.ProjectName ) ) {
+			if ( ProjectCanBeCreated( addProjectEntry.ProjectName, addProjectEntry.Deadline ) ) {
 				var testProject3 = new Project {
 					Id = _context.Projects.Count() + 1,
 					Name = addProjectEntry.ProjectName,
 					Customer = addProjectEntry.CustomerName,
 					IsCompleted = false,
-					Deadline = DateTime.Now
+					Deadline = DateTime.Parse( addProjectEntry.Deadline)
 				};
 				_context.Projects.Add( testProject3 );
 				_context.SaveChanges();
@@ -91,8 +91,10 @@ namespace Timelogger.Api.Controllers
 					!_context.Projects.First( project => project.Id == projectId ).IsCompleted;
 		}
 
-		private bool ProjectCanBeCreated(string projectName ) {
-			return !_context.Projects.Any( project => project.Name == projectName );
+		private bool ProjectCanBeCreated(string projectName, string deadline ) {
+			return !_context.Projects.Any( project => project.Name == projectName ) &&
+				DateTime.TryParse(deadline, out var deadlineParsed) &&
+				deadlineParsed >= DateTime.Now.AddDays(-1);
 		}
 	}
 }
