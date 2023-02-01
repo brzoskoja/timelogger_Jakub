@@ -44,6 +44,7 @@ export default function AddProject({ projects, setError, fetchData }: AddProject
         fetchData();
         setCustomerName("");
         setProjectName("");
+        setError("");
         setDeadline(getTodaysDate());
       } else {
         setError("Something went wrong when creating the new project");
