@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
@@ -68,14 +69,14 @@ namespace Timelogger.Api.Controllers
 		[HttpGet]
 		public IActionResult Get()
 		{
-			return Ok(_context.Projects);
+			return Ok(  _context.Projects.ToList() );
 		}
 
 		// GET api/projects/getTimeRegistrations
 		[HttpGet]
 		[Route( "getTimeRegistrations" )]
 		public IActionResult GetTimeRegistrations() {
-			return Ok( _context.TimeRegistrations );
+			return Ok( _context.TimeRegistrations.ToList() );
 		}
 
 		private bool ValidateTimeEntry ( TimeEntry timeEntry ) {
@@ -93,6 +94,7 @@ namespace Timelogger.Api.Controllers
 
 		private bool ProjectCanBeCreated(string projectName, string deadline ) {
 			return !_context.Projects.Any( project => project.Name == projectName ) &&
+        !string.IsNullOrEmpty(projectName) &&
 				DateTime.TryParse(deadline, out var deadlineParsed) &&
 				deadlineParsed >= DateTime.Now.AddDays(-1);
 		}
